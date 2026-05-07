@@ -44,7 +44,7 @@ Focado em:
 
 Para melhor experiência, use como um app:
 
-1. Abra o arquivo no navegador do celular (Chrome ou Safari)
+1. Abra esse link no navegador do celular (Chrome ou Safari): https://leonzmarina.github.io/plannerfinanceiro/
 2. Toque no menu (⋮ ou compartilhar)
 3. Selecione **"Adicionar à tela inicial"**
 4. Abra direto pela home do celular ✨
