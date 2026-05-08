@@ -4,20 +4,6 @@ Um planner financeiro web delicado, intuitivo e visual 💖 feito para organizar
 
 ---
 
-## ✨ Preview
-
-### ➕ Adicionar lançamentos
-<img width="260" src="./assets/add.png"/>
-
-### 📊 Dashboard financeiro
-<img width="260" src="./assets/dashboard-1.png"/>
-<img width="260" src="./assets/dashboard-2.png"/>
-
-### 📋 Histórico de transações
-<img width="260" src="./assets/transactions.png"/>
-
----
-
 ## ✨ Sobre o projeto
 
 O **Money ✦** é uma aplicação leve que funciona direto no navegador mobile, sem login ou instalação. Ideal para acompanhar gastos, entradas e visualizar sua vida financeira de forma clara e agradável.
