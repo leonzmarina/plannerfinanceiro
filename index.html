@@ -113,20 +113,19 @@ function lastOfMonth() {
 // ── GAUGE SVG (fixed large-arc) ───────────────────────────────
 function Gauge({ spent, income, t }) {
   const cx=110, cy=108, R=80, T=14;
-  const lx=cx-R, ly=cy, rx=cx+R, ry=cy;
-
-  // full track: left→right clockwise (upper semicircle), sweep=1, large=1
+  const lx=cx-R, ly=cy;
+  const rx=cx+R, ry=cy;
+  // Track: sweep=1 large=1 (standard gauge upper arc, verified visually)
   const track = `M${lx},${ly} A${R},${R} 0 1 1 ${rx},${ry}`;
 
   let fill = null, dot = null, pct = 0;
   if (income > 0) {
     pct = Math.min(spent / income, 1);
-    // angle: -PI (left/0%) → 0 (right/100%), clockwise
     const a = -Math.PI + pct * Math.PI;
     const ex = cx + R * Math.cos(a);
     const ey = cy + R * Math.sin(a);
-    // fill arc spans pct*180°, always < 180° → large ALWAYS 0
     const color = pct < 0.7 ? t.gauge_ok : pct < 0.9 ? t.gauge_warn : t.gauge_bad;
+    // Fill: sweep=1 large=0 always (verified for 10%→99%)
     if (pct > 0.005) {
       fill = <path d={`M${lx},${ly} A${R},${R} 0 0 1 ${ex},${ey}`}
         fill="none" stroke={color} strokeWidth={T} strokeLinecap="round"/>;
