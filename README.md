@@ -1,6 +1,6 @@
 # 💸 Money
 
-Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser — sem instalação, sem servidor, sem dependências externas além de CDN.
+Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser (sem instalação, sem servidor, sem dependências externas além de CDN).
 
 Acesse em: **[marinnaleon.github.io/money](https://marinnaleon.github.io/money)**
 
