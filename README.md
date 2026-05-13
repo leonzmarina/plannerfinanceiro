@@ -1,80 +1,87 @@
-# ✦ Money ✦ planner financeiro
+# 💸 Money
 
-Um planner financeiro web delicado, intuitivo e visual 💖 feito para organizar sua vida financeira de forma simples, prática e bonita (pensado exclusivamente para uso no celular).
+Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser — sem instalação, sem servidor, sem dependências externas além de CDN.
 
----
-
-## ✨ Sobre o projeto
-
-O **Money ✦** é uma aplicação leve que funciona direto no navegador mobile, sem login ou instalação. Ideal para acompanhar gastos, entradas e visualizar sua vida financeira de forma clara e agradável.
-
-Focado em:
-- praticidade no celular 📱
-- visual clean e feminino 🌸
-- uso rápido no dia a dia
-- experiência parecida com app
+Acesse em: **[marinnaleon.github.io/money](https://marinnaleon.github.io/money)**
 
 ---
 
-## 📊 Funcionalidades
+## ✨ Funcionalidades
 
-### ➕ Registro de lançamentos
-- Adicione gastos ou entradas
-- Descrição, valor, data e categoria
-- Interface rápida e otimizada para mobile
-
-### 📈 Dashboard financeiro
-- Resumo por período
-- Saldo atualizado automaticamente
-- Indicador de orçamento utilizado 📊
-- Gráfico de gastos por categoria 🍰
-- Gastos por dia da semana
-
-### 📋 Transações
-- Histórico completo de lançamentos
-- Filtro por:
-  - todos
-  - gastos
-  - entradas
-- Exclusão de registros
-
-### 💾 Armazenamento local
-- Dados salvos no navegador
-- Sem login
-- Sem backend
+- **Registrar gastos e entradas** com descrição, valor, data e categoria
+- **Dashboard** com totais, saldo do período, gráfico gauge de orçamento e pizza por categoria
+- **Lançamentos** com filtro por tipo e intervalo de datas
+- **Filtro de data** customizável (de/até) em todas as abas
+- **2 temas visuais** alternáveis diretamente no app:
+  - 🌸 **Rosé** — paleta feminina em tons de rosa e verde-sage
+  - ◼ **Mono** — minimalista neutro com tipografia Space Mono
+- **Dados 100% locais** — tudo salvo no `localStorage` do seu dispositivo, nenhuma informação vai para servidores
+- **PWA-ready** — pode ser adicionado como atalho na tela inicial do celular
 
 ---
 
-## 📱 Como usar
+## 🛠️ Tecnologias
 
-Para melhor experiência:
+| Tecnologia | Uso |
+|---|---|
+| **React 18** | Interface declarativa com hooks (`useState`, `useMemo`) |
+| **JSX** | Compilado no browser via Babel Standalone |
+| **SVG** | Gráficos gauge e pizza desenhados à mão, sem bibliotecas |
+| **localStorage** | Persistência de dados e preferência de tema |
+| **Google Fonts** | Cormorant Garamond · DM Sans · Space Mono |
 
-1. Abra o arquivo no navegador do celular
-2. Toque em **"Adicionar à tela inicial"**
-3. Abra pela home do celular ✨
-
-Assim o planner funciona como um mini app 💖
-
----
-
-## ⚠️ Importante
-
-- 📱 Projeto feito apenas para mobile
-- 🚫 Não otimizado para desktop
-- 🔒 Dados ficam somente no dispositivo
-- 🧹 Limpar o navegador pode apagar os dados
+Zero bundlers. Zero frameworks de CSS. Zero backend.
 
 ---
 
-## 🎨 Design
+## 📁 Estrutura
 
-- Visual minimalista e delicado 🌸
-- Paleta rosé + verde sage
-- Interface confortável e clean
-- Inspirado em planners digitais
+```
+money/
+└── index.html   # app inteiro em um único arquivo
+```
 
 ---
 
-## 💖 Objetivo
+## 📱 Como usar no celular
 
-Transformar organização financeira em algo leve, bonito e fácil de manter no dia a dia.
+**iPhone (Safari)**
+1. Abra o link no Safari
+2. Toque em Compartilhar → "Adicionar à Tela de Início"
+
+**Android (Chrome)**
+1. Abra o link no Chrome
+2. Menu → "Adicionar à tela inicial"
+
+Vai aparecer como ícone na home, igual a um app nativo.
+
+---
+
+## 🔒 Privacidade
+
+O código-fonte é público, mas **os seus dados são privados**. Tudo fica salvo apenas no `localStorage` do seu próprio dispositivo. Nenhuma informação é enviada para nenhum servidor.
+
+---
+
+## 🚀 Deploy no GitHub Pages
+
+1. Faça fork ou crie um repositório chamado `money`
+2. Faça upload do `index.html` como arquivo principal
+3. Vá em **Settings → Pages → Branch: main → Save**
+4. Aguarde 1–2 minutos — seu app estará em `https://seu-usuario.github.io/money`
+
+---
+
+## 📂 Categorias disponíveis
+
+**Gastos:** Alimentação · Mercado · Transporte · Saúde · Lazer · Moradia · Educação · Roupas · Beleza · Serviços · Outros
+
+**Entradas:** Salário · Freelance · Bônus · Presente · Investimentos · Aluguel · Reembolso · Outros
+
+---
+
+feito com 🩷 por [@marinnaleon](https://www.tiktok.com/@marinnaleon)
+
+[![TikTok](https://img.shields.io/badge/TikTok-@marinnaleon-black?logo=tiktok)](https://www.tiktok.com/@marinnaleon)
+[![GitHub](https://img.shields.io/badge/GitHub-leonz.marina-181717?logo=github)](https://github.com/leonz-marina)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-marinamleon-0A66C2?logo=linkedin)](https://linkedin.com/in/marinamleon)
