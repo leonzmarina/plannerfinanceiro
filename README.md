@@ -2,7 +2,7 @@
 
 Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser (sem instalação, sem servidor, sem dependências externas além de CDN).
 
-Acesse em: **[marinnaleon.github.io/money](https://marinnaleon.github.io/plannerfinanceiro)**
+Acesse em: **[marinnaleon.github.io/plannerfinanceiro](https://marinnaleon.github.io/plannerfinanceiro)**
 
 ---
 
@@ -65,7 +65,7 @@ O código-fonte é público, mas **os seus dados são privados**. Tudo fica salv
 
 ## 🚀 Deploy no GitHub Pages
 
-1. Faça fork ou crie um repositório chamado `money`
+1. Faça fork ou crie um repositório chamado `plannerfinanceiro`
 2. Faça upload do `index.html` como arquivo principal
 3. Vá em **Settings → Pages → Branch: main → Save**
 4. Aguarde 1–2 minutos — seu app estará em `https://seu-usuario.github.io/plannerfinanceiro`
