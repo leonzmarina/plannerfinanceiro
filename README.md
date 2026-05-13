@@ -83,5 +83,5 @@ O código-fonte é público, mas **os seus dados são privados**. Tudo fica salv
 feito com 🩷 por [@marinnaleon](https://www.tiktok.com/@marinnaleon)
 
 [![TikTok](https://img.shields.io/badge/TikTok-@marinnaleon-black?logo=tiktok)](https://www.tiktok.com/@marinnaleon)
-[![GitHub](https://img.shields.io/badge/GitHub-leonz.marina-181717?logo=github)](https://github.com/leonzmarina)
+[![GitHub](https://img.shields.io/badge/GitHub-leonzmarina-181717?logo=github)](https://github.com/leonzmarina)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-marinamleon-0A66C2?logo=linkedin)](https://linkedin.com/in/marinamleon)
