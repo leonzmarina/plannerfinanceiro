@@ -2,7 +2,7 @@
 
 Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser (sem instalação, sem servidor, sem dependências externas além de CDN).
 
-Acesse em: **[marinnaleon.github.io/plannerfinanceiro](https://marinnaleon.github.io/plannerfinanceiro)**
+Acesse em: **[marinnaleon.github.io/plannerfinanceiro](https://leonzmarina.github.io/plannerfinanceiro/)**
 
 ---
 
