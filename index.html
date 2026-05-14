@@ -84,6 +84,70 @@ const THEMES = {
   },
 };
 
+// ── TRANSLATIONS ─────────────────────────────────────────────
+const I18N = {
+  pt: {
+    title: "Money ✨",
+    tabAdd: "+ Adicionar", tabDash: "Resumo", tabTx: "Lançamentos",
+    spent: "gastos", income: "entradas", balance: "saldo",
+    typeExpense: "💸 Gasto", typeIncome: "💰 Entrada",
+    labelDesc: "Descrição", labelVal: "Valor (R$)", labelDate: "Data", labelCat: "Categoria",
+    btnAddExpense: "Adicionar gasto", btnAddIncome: "Adicionar entrada",
+    toastExpense: "✓ gasto registrado!", toastIncome: "✓ entrada registrada!",
+    lastTx: "últimos lançamentos", noTx: "nenhum lançamento ainda",
+    filterAll: "Todos", filterExpense: "Gastos", filterIncome: "Entradas",
+    dateFrom: "De", dateTo: "Até", dateAll: "tudo",
+    totalSpent: "💸 total gasto", totalIncome: "💰 total entradas",
+    periodLabel: "saldo do período", periodLabelNeg: "⚠️ saldo do período",
+    gaugeTitle: "orçamento utilizado", gaugeNoIncome: "sem entradas registradas",
+    gaugeOf: "gastos de",
+    catTitle: "gastos por categoria", noCats: "nenhum gasto no período",
+    dayTitle: "gastos por dia da semana",
+    noTxPeriod: "nenhum lançamento no período",
+    footerCredit: "feito com 🩷 por @marinnaleon",
+    menuTheme: "Tema", menuLang: "Idioma",
+    themeRose: "🌸 Rosé", themeMono: "◼ Mono",
+    pieCenterLabel: "gastos",
+    days: ["dom","seg","ter","qua","qui","sex","sáb"],
+    daysFull: ["domingo","segunda","terça","quarta","quinta","sexta","sábado"],
+    months: ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"],
+    expCats: {"Alimentação":"🍽️","Mercado":"🛒","Transporte":"🚗","Saúde":"💊","Lazer":"🎮","Moradia":"🏠","Educação":"📚","Roupas":"👕","Beleza":"💅","Serviços":"🔧","Outros":"📦"},
+    incCats: {"Salário":"💼","Freelance":"💻","Bônus":"🎯","Presente":"🎁","Investimentos":"📈","Aluguel":"🏠","Reembolso":"↩️","Outros":"📦"},
+    descPlaceholder: "ex: almoço no restaurante",
+    valPlaceholder: "0,00",
+  },
+  en: {
+    title: "Money ✨",
+    tabAdd: "+ Add", tabDash: "Summary", tabTx: "Transactions",
+    spent: "spent", income: "income", balance: "balance",
+    typeExpense: "💸 Expense", typeIncome: "💰 Income",
+    labelDesc: "Description", labelVal: "Amount ($)", labelDate: "Date", labelCat: "Category",
+    btnAddExpense: "Add expense", btnAddIncome: "Add income",
+    toastExpense: "✓ expense added!", toastIncome: "✓ income added!",
+    lastTx: "recent transactions", noTx: "no transactions yet",
+    filterAll: "All", filterExpense: "Expenses", filterIncome: "Income",
+    dateFrom: "From", dateTo: "To", dateAll: "all",
+    totalSpent: "💸 total spent", totalIncome: "💰 total income",
+    periodLabel: "period balance", periodLabelNeg: "⚠️ period balance",
+    gaugeTitle: "budget used", gaugeNoIncome: "no income registered",
+    gaugeOf: "spent of",
+    catTitle: "spending by category", noCats: "no expenses in this period",
+    dayTitle: "spending by day of week",
+    noTxPeriod: "no transactions in this period",
+    footerCredit: "made with 🩷 by @marinnaleon",
+    menuTheme: "Theme", menuLang: "Language",
+    themeRose: "🌸 Rosé", themeMono: "◼ Mono",
+    pieCenterLabel: "spending",
+    days: ["sun","mon","tue","wed","thu","fri","sat"],
+    daysFull: ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"],
+    months: ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],
+    expCats: {"Food":"🍽️","Groceries":"🛒","Transport":"🚗","Health":"💊","Entertainment":"🎮","Housing":"🏠","Education":"📚","Clothing":"👕","Beauty":"💅","Services":"🔧","Other":"📦"},
+    incCats: {"Salary":"💼","Freelance":"💻","Bonus":"🎯","Gift":"🎁","Investments":"📈","Rent":"🏠","Refund":"↩️","Other":"📦"},
+    descPlaceholder: "e.g. lunch at restaurant",
+    valPlaceholder: "0.00",
+  },
+};
+
 // ── CONSTANTS ────────────────────────────────────────────────
 const KEY = "money_v2";
 const EXPENSE_CATS = {
@@ -99,7 +163,7 @@ const INCOME_CATS = {
 const brl = v => "R$ " + v.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const todayStr = () => new Date().toISOString().slice(0,10);
 const fmtD = iso => { const [y,m,d]=iso.split("-"); return `${d}/${m}/${y}`; };
-const catIcon = (type, cat) => (type==="expense" ? EXPENSE_CATS : INCOME_CATS)[cat] || "📦";
+const catIcon = (type, cat, i) => (type==="expense" ? i.expCats : i.incCats)[cat] || "📦";
 
 function firstOfMonth() {
   const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-01`;
@@ -111,7 +175,7 @@ function lastOfMonth() {
 }
 
 // ── GAUGE SVG (fixed large-arc) ───────────────────────────────
-function Gauge({ spent, income, t }) {
+function Gauge({ spent, income, t, i }) {
   const cx=110, cy=108, R=80, T=14;
   const lx=cx-R, ly=cy;
   const rx=cx+R, ry=cy;
@@ -134,7 +198,7 @@ function Gauge({ spent, income, t }) {
   }
 
   const pctLabel = income > 0 ? Math.round(pct*100)+"%" : "—";
-  const subLabel = income > 0 ? `${brl(spent)} gastos de ${brl(income)}` : "sem entradas registradas";
+  const subLabel = income > 0 ? `${brl(spent)} ${i.gaugeOf} ${brl(income)}` : i.gaugeNoIncome;
   const pctColor = pct < 0.7 ? t.income : pct < 0.9 ? t.gauge_warn : t.gauge_bad;
 
   return (
@@ -156,18 +220,17 @@ function Gauge({ spent, income, t }) {
 }
 
 // ── PIE CHART ────────────────────────────────────────────────
-function PieChart({ data, total, t }) {
+function PieChart({ data, total, t, i }) {
   const cx=90, cy=90, r=78, rIn=42;
   let start = -Math.PI/2;
-  const slices = data.map(([cat,amt],i)=>{
+  const slices = data.map(([cat,amt],idx)=>{
     const pct = amt/total;
     const angle = pct * 2 * Math.PI;
     const end = start + angle;
-    // handle full circle
     if (Math.abs(angle - 2*Math.PI) < 0.001) {
       const d = `M${cx+r},${cy} A${r},${r} 0 1 1 ${cx-r},${cy} A${r},${r} 0 1 1 ${cx+r},${cy} Z M${cx+rIn},${cy} A${rIn},${rIn} 0 1 0 ${cx-rIn},${cy} A${rIn},${rIn} 0 1 0 ${cx+rIn},${cy} Z`;
       start = end;
-      return { cat,amt,pct,d,color:t.pie[i%t.pie.length] };
+      return { cat,amt,pct,d,color:t.pie[idx%t.pie.length] };
     }
     const x1=cx+r*Math.cos(start),  y1=cy+r*Math.sin(start);
     const x2=cx+r*Math.cos(end),    y2=cy+r*Math.sin(end);
@@ -176,24 +239,24 @@ function PieChart({ data, total, t }) {
     const large = angle >= Math.PI ? 1 : 0;
     const d=`M${ix1},${iy1} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${ix2},${iy2} A${rIn},${rIn} 0 ${large} 0 ${ix1},${iy1} Z`;
     start = end;
-    return { cat,amt,pct,d,color:t.pie[i%t.pie.length] };
+    return { cat,amt,pct,d,color:t.pie[idx%t.pie.length] };
   });
 
   return (
     <div style={{background:t.surface,border:`1px solid ${t.border}`,borderRadius:14,padding:"18px 16px",display:"flex",flexDirection:"column",alignItems:"center",gap:16}}>
       <svg width="180" height="180" viewBox="0 0 180 180">
-        {slices.map((s,i)=><path key={i} d={s.d} fill={s.color} stroke={t.bg} strokeWidth="2"/>)}
+        {slices.map((s,idx)=><path key={idx} d={s.d} fill={s.color} stroke={t.bg} strokeWidth="2"/>)}
         <circle cx={cx} cy={cy} r={rIn} fill={t.bg}/>
-        <text x={cx} y={cy-6} textAnchor="middle" fontFamily={t.tabFont} fontSize="12" fill={t.text3}>gastos</text>
+        <text x={cx} y={cy-6} textAnchor="middle" fontFamily={t.tabFont} fontSize="12" fill={t.text3}>{i.pieCenterLabel}</text>
         <text x={cx} y={cy+14} textAnchor="middle" fontFamily={t.numFont} fontSize="13" fill={t.accent} fontWeight="500">{brl(total)}</text>
       </svg>
       <div style={{width:"100%",display:"flex",flexDirection:"column",gap:8}}>
-        {slices.map((s,i)=>(
-          <div key={i} style={{display:"flex",alignItems:"center",gap:10}}>
+        {slices.map((s,idx)=>(
+          <div key={idx} style={{display:"flex",alignItems:"center",gap:10}}>
             <div style={{display:"flex",alignItems:"center",gap:8,flex:1,minWidth:0}}>
               <div style={{width:9,height:9,borderRadius:"50%",background:s.color,flexShrink:0}}/>
               <span style={{fontSize:13,fontFamily:t.tabFont,color:t.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-                {catIcon("expense",s.cat)} {s.cat}
+                {catIcon("expense",s.cat,i)} {s.cat}
               </span>
               <span style={{fontSize:11,color:t.text3,marginLeft:"auto",paddingLeft:6,flexShrink:0,fontFamily:t.tabFont}}>{Math.round(s.pct*100)}%</span>
             </div>
@@ -206,8 +269,8 @@ function PieChart({ data, total, t }) {
 }
 
 // ── DAY BARS ─────────────────────────────────────────────────
-function DayBars({ data, t }) {
-  const DLBL=["dom","seg","ter","qua","qui","sex","sáb"];
+function DayBars({ data, t, i }) {
+  const DLBL=i.days;
   const todayDow=new Date().getDay();
   const dayTot=Array(7).fill(0);
   data.filter(e=>e.type==="expense").forEach(e=>{
@@ -217,14 +280,14 @@ function DayBars({ data, t }) {
   return (
     <div style={{background:t.surface,border:`1px solid ${t.border}`,borderRadius:14,padding:"14px 14px 10px"}}>
       <div style={{display:"flex",alignItems:"flex-end",gap:4,height:64,marginBottom:8}}>
-        {dayTot.map((v,i)=>{
+        {dayTot.map((v,idx)=>{
           const h=Math.max((v/maxD)*50,v>0?3:0);
           return (
-            <div key={i} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4,height:"100%"}}>
+            <div key={idx} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4,height:"100%"}}>
               <div style={{flex:1,width:"100%",display:"flex",alignItems:"flex-end"}}>
-                <div style={{width:"100%",height:h,background:i===todayDow?t.accent:t.spend1,borderRadius:"3px 3px 0 0",transition:"height .5s ease"}}/>
+                <div style={{width:"100%",height:h,background:idx===todayDow?t.accent:t.spend1,borderRadius:"3px 3px 0 0",transition:"height .5s ease"}}/>
               </div>
-              <span style={{fontSize:10,color:t.text3,fontFamily:t.tabFont}}>{DLBL[i]}</span>
+              <span style={{fontSize:10,color:t.text3,fontFamily:t.tabFont}}>{DLBL[idx]}</span>
             </div>
           );
         })}
@@ -234,7 +297,7 @@ function DayBars({ data, t }) {
 }
 
 // ── DATE RANGE PICKER ────────────────────────────────────────
-function DateRange({ from, to, onFrom, onTo, onClear, t }) {
+function DateRange({ from, to, onFrom, onTo, onClear, t, i }) {
   const inputStyle = {
     background:t.surface,border:`1px solid ${t.border}`,borderRadius:10,
     padding:"8px 10px",fontFamily:t.tabFont,fontSize:13,fontWeight:300,
@@ -243,21 +306,21 @@ function DateRange({ from, to, onFrom, onTo, onClear, t }) {
   return (
     <div style={{display:"flex",gap:8,alignItems:"flex-end",marginBottom:14}}>
       <div style={{display:"flex",flexDirection:"column",gap:4,flex:1}}>
-        <label style={{fontSize:10,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont}}>De</label>
+        <label style={{fontSize:10,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont}}>{i.dateFrom}</label>
         <input type="date" style={inputStyle} value={from} onChange={e=>onFrom(e.target.value)}/>
       </div>
       <div style={{fontSize:16,color:t.text3,paddingBottom:9,flexShrink:0}}>—</div>
       <div style={{display:"flex",flexDirection:"column",gap:4,flex:1}}>
-        <label style={{fontSize:10,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont}}>Até</label>
+        <label style={{fontSize:10,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont}}>{i.dateTo}</label>
         <input type="date" style={inputStyle} value={to} onChange={e=>onTo(e.target.value)}/>
       </div>
-      <button onClick={onClear} style={{background:"none",border:`1px solid ${t.border}`,borderRadius:10,padding:"8px 10px",fontSize:11,color:t.text2,cursor:"pointer",whiteSpace:"nowrap",paddingBottom:9,fontFamily:t.tabFont}}>tudo</button>
+      <button onClick={onClear} style={{background:"none",border:`1px solid ${t.border}`,borderRadius:10,padding:"8px 10px",fontSize:11,color:t.text2,cursor:"pointer",whiteSpace:"nowrap",paddingBottom:9,fontFamily:t.tabFont}}>{i.dateAll}</button>
     </div>
   );
 }
 
 // ── FOOTER ───────────────────────────────────────────────────
-function Footer({ t }) {
+function Footer({ t, i }) {
   const btnStyle = {
     display:"flex",alignItems:"center",gap:6,padding:"7px 14px",borderRadius:50,
     border:`1px solid ${t.border}`,background:t.surface,
@@ -265,7 +328,7 @@ function Footer({ t }) {
   };
   return (
     <div style={{padding:"20px 22px 28px",textAlign:"center"}}>
-      <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:10}}>feito com 🩷 por @marinnaleon</div>
+      <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:10}}>{i.footerCredit}</div>
       <div style={{display:"flex",gap:8,justifyContent:"center"}}>
         <a href="https://www.tiktok.com/@marinnaleon" target="_blank" style={btnStyle}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
@@ -281,7 +344,7 @@ function Footer({ t }) {
 }
 
 // ── ADD TAB ───────────────────────────────────────────────────
-function AddTab({ entries, setEntries, t }) {
+function AddTab({ entries, setEntries, t, i }) {
   const [type, setType]   = useState("expense");
   const [desc, setDesc]   = useState("");
   const [val,  setVal]    = useState("");
@@ -289,7 +352,7 @@ function AddTab({ entries, setEntries, t }) {
   const [cat,  setCat]    = useState("Alimentação");
   const [toast,setToast]  = useState(false);
 
-  const cats = type==="expense" ? EXPENSE_CATS : INCOME_CATS;
+  const cats = type==="expense" ? i.expCats : i.incCats;
   useEffect(()=>{ setCat(Object.keys(cats)[0]); }, [type]);
 
   function add() {
@@ -317,7 +380,7 @@ function AddTab({ entries, setEntries, t }) {
     <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",padding:"20px 22px 0"}}>
       {/* type toggle */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:14}}>
-        {[["expense","💸 Gasto"],["income","💰 Entrada"]].map(([tp,lbl])=>(
+        {[["expense",i.typeExpense],["income",i.typeIncome]].map(([tp,lbl])=>(
           <button key={tp} onClick={()=>setType(tp)} style={{
             padding:11,borderRadius:12,border:`1px solid ${type===tp?(tp==="expense"?t.accent:t.income):t.border}`,
             background:type===tp?(tp==="expense"?t.spend1:t.income1):t.surface,
@@ -329,21 +392,21 @@ function AddTab({ entries, setEntries, t }) {
 
       <div style={{display:"flex",flexDirection:"column",gap:14}}>
         <div style={{display:"flex",flexDirection:"column",gap:6}}>
-          <label style={lblStyle}>Descrição</label>
-          <input style={fieldStyle} value={desc} onChange={e=>setDesc(e.target.value)} placeholder="ex: almoço no restaurante" onKeyDown={e=>e.key==="Enter"&&add()}/>
+          <label style={lblStyle}>{i.labelDesc}</label>
+          <input style={fieldStyle} value={desc} onChange={e=>setDesc(e.target.value)} placeholder={i.descPlaceholder} onKeyDown={e=>e.key==="Enter"&&add()}/>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
           <div style={{display:"flex",flexDirection:"column",gap:6}}>
-            <label style={lblStyle}>Valor (R$)</label>
+            <label style={lblStyle}>{i.labelVal}</label>
             <input style={fieldStyle} type="number" inputMode="decimal" placeholder="0,00" min="0" step="0.01" value={val} onChange={e=>setVal(e.target.value)} onKeyDown={e=>e.key==="Enter"&&add()}/>
           </div>
           <div style={{display:"flex",flexDirection:"column",gap:6}}>
-            <label style={lblStyle}>Data</label>
+            <label style={lblStyle}>{i.labelDate}</label>
             <input style={fieldStyle} type="date" value={date} onChange={e=>setDate(e.target.value)}/>
           </div>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:6}}>
-          <label style={lblStyle}>Categoria</label>
+          <label style={lblStyle}>{i.labelCat}</label>
           <select style={{...fieldStyle,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:36}}
             value={cat} onChange={e=>setCat(e.target.value)}>
             {Object.entries(cats).map(([k,v])=><option key={k} value={k}>{v} {k}</option>)}
@@ -351,23 +414,23 @@ function AddTab({ entries, setEntries, t }) {
         </div>
 
         <button onClick={add} style={{width:"100%",padding:14,border:"none",borderRadius:12,background:isExp?t.accent:t.income,color:"#fff",fontFamily:t.tabFont,fontSize:14,fontWeight:500,cursor:"pointer"}}>
-          {isExp?"Adicionar gasto":"Adicionar entrada"}
+          {isExp?i.btnAddExpense:i.btnAddIncome}
         </button>
 
         {toast && (
           <div style={{background:isExp?t.spend1:t.income1,color:isExp?t.accent:t.income,borderRadius:10,padding:"10px 14px",fontSize:13,textAlign:"center",fontFamily:t.tabFont}}>
-            ✓ {isExp?"gasto registrado!":"entrada registrada!"}
+            {isExp?i.toastExpense:i.toastIncome}
           </div>
         )}
 
         <div style={{height:1,background:t.border,margin:"4px 0"}}/>
-        <div style={{fontSize:11,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont,marginBottom:4}}>últimos lançamentos</div>
+        <div style={{fontSize:11,textTransform:"uppercase",letterSpacing:".08em",color:t.text3,fontFamily:t.tabFont,marginBottom:4}}>{i.lastTx}</div>
 
         {recent.length===0
-          ? <div style={{fontSize:13,color:t.text3,textAlign:"center",padding:"10px 0",fontFamily:t.tabFont}}>nenhum lançamento ainda</div>
+          ? <div style={{fontSize:13,color:t.text3,textAlign:"center",padding:"10px 0",fontFamily:t.tabFont}}>{i.noTx}</div>
           : recent.map(e=>(
             <div key={e.id} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:t.surface,border:`1px solid ${t.border}`,borderRadius:12,marginBottom:7}}>
-              <div style={{fontSize:18,width:32,textAlign:"center",flexShrink:0}}>{catIcon(e.type,e.category)}</div>
+              <div style={{fontSize:18,width:32,textAlign:"center",flexShrink:0}}>{catIcon(e.type,e.category,i)}</div>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontSize:13,fontFamily:t.tabFont,color:t.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.description}</div>
                 <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginTop:1}}>{e.category} · {fmtD(e.date)}</div>
@@ -378,13 +441,13 @@ function AddTab({ entries, setEntries, t }) {
           ))
         }
       </div>
-      <Footer t={t}/>
+      <Footer t={t} i={i}/>
     </div>
   );
 }
 
 // ── DASHBOARD TAB ────────────────────────────────────────────
-function DashTab({ entries, t, themeKey }) {
+function DashTab({ entries, t, i, themeKey }) {
   const [from, setFrom] = useState(firstOfMonth);
   const [to,   setTo]   = useState(lastOfMonth);
 
@@ -409,46 +472,46 @@ function DashTab({ entries, t, themeKey }) {
 
   return (
     <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",padding:"20px 22px 0"}}>
-      <DateRange from={from} to={to} onFrom={setFrom} onTo={setTo} onClear={()=>{setFrom("");setTo("");}} t={t}/>
+      <DateRange from={from} to={to} onFrom={setFrom} onTo={setTo} onClear={()=>{setFrom("");setTo("");}} t={t} i={i}/>
 
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
         <div style={cardStyle}>
-          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:6}}>💸 total gasto</div>
+          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:6}}>{i.totalSpent}</div>
           <div style={{fontFamily:t.numFont,fontSize:20,fontWeight:500,color:t.accent}}>{brl(totalSp)}</div>
         </div>
         <div style={cardStyle}>
-          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:6}}>💰 total entradas</div>
+          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:6}}>{i.totalIncome}</div>
           <div style={{fontFamily:t.numFont,fontSize:20,fontWeight:500,color:t.income}}>{brl(totalIn)}</div>
         </div>
       </div>
 
       <div style={{...cardStyle,display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:8}}>
         <div>
-          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:4}}>{balance<0?"⚠️ ":""}saldo do período</div>
+          <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginBottom:4}}>{balance<0?i.periodLabelNeg:i.periodLabel}</div>
           <div style={{fontFamily:t.numFont,fontSize:22,fontWeight:500,color:balance>=0?t.income:t.accent}}>{brl(Math.abs(balance))}</div>
         </div>
         <div style={{fontSize:28,opacity:.6}}>{balance>=0?(themeKey==="feminine"?"🌸":"✦"):(themeKey==="feminine"?"😬":"📉")}</div>
       </div>
 
-      <div style={slbl}>orçamento utilizado</div>
-      <Gauge spent={totalSp} income={totalIn} t={t}/>
+      <div style={slbl}>{i.gaugeTitle}</div>
+      <Gauge spent={totalSp} income={totalIn} t={t} i={i}/>
 
-      <div style={slbl}>gastos por categoria</div>
+      <div style={slbl}>{i.catTitle}</div>
       {catArr.length===0
-        ? <div style={{textAlign:"center",padding:"30px 0",color:t.text3,fontFamily:t.tabFont,fontSize:13}}>nenhum gasto no período</div>
-        : <PieChart data={catArr} total={totalSp} t={t}/>
+        ? <div style={{textAlign:"center",padding:"30px 0",color:t.text3,fontFamily:t.tabFont,fontSize:13}}>{i.noCats}</div>
+        : <PieChart data={catArr} total={totalSp} t={t} i={i}/>
       }
 
-      <div style={slbl}>gastos por dia da semana</div>
-      <DayBars data={data} t={t}/>
+      <div style={slbl}>{i.dayTitle}</div>
+      <DayBars data={data} t={t} i={i}/>
 
-      <Footer t={t}/>
+      <Footer t={t} i={i}/>
     </div>
   );
 }
 
 // ── TRANSACTIONS TAB ─────────────────────────────────────────
-function TxTab({ entries, setEntries, t }) {
+function TxTab({ entries, setEntries, t, i }) {
   const [from,    setFrom]    = useState(firstOfMonth);
   const [to,      setTo]      = useState(lastOfMonth);
   const [txFilter,setTxFilter]= useState("all");
@@ -476,14 +539,14 @@ function TxTab({ entries, setEntries, t }) {
 
   return (
     <div style={{flex:1,overflowY:"auto",WebkitOverflowScrolling:"touch",padding:"14px 22px 0"}}>
-      <DateRange from={from} to={to} onFrom={setFrom} onTo={setTo} onClear={()=>{setFrom("");setTo("");}} t={t}/>
-      <div style={{display:"flex",gap:6,marginBottom:14}}>{fbtn("all","Todos")}{fbtn("expense","Gastos")}{fbtn("income","Entradas")}</div>
+      <DateRange from={from} to={to} onFrom={setFrom} onTo={setTo} onClear={()=>{setFrom("");setTo("");}} t={t} i={i}/>
+      <div style={{display:"flex",gap:6,marginBottom:14}}>{fbtn("all",i.filterAll)}{fbtn("expense",i.filterExpense)}{fbtn("income",i.filterIncome)}</div>
 
       {list.length===0
-        ? <div style={{textAlign:"center",padding:"48px 0",color:t.text3,fontFamily:t.tabFont,fontSize:13}}>nenhum lançamento no período</div>
+        ? <div style={{textAlign:"center",padding:"48px 0",color:t.text3,fontFamily:t.tabFont,fontSize:13}}>{i.noTxPeriod}</div>
         : list.map(e=>(
           <div key={e.id} style={{background:t.surface,border:`1px solid ${t.border}`,borderRadius:14,padding:"11px 14px",display:"flex",alignItems:"center",gap:11,marginBottom:7}}>
-            <div style={{width:34,height:34,background:e.type==="expense"?t.spend1:t.income1,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{catIcon(e.type,e.category)}</div>
+            <div style={{width:34,height:34,background:e.type==="expense"?t.spend1:t.income1,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{catIcon(e.type,e.category,i)}</div>
             <div style={{flex:1,minWidth:0}}>
               <div style={{fontSize:13,fontFamily:t.tabFont,color:t.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.description}</div>
               <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont,marginTop:1}}>{e.category} · {fmtD(e.date)}</div>
@@ -495,7 +558,65 @@ function TxTab({ entries, setEntries, t }) {
           </div>
         ))
       }
-      <Footer t={t}/>
+      <Footer t={t} i={i}/>
+    </div>
+  );
+}
+
+// ── SETTINGS MENU ────────────────────────────────────────────
+function SettingsMenu({ themeKey, setThemeKey, lang, setLang, t, i }) {
+  const [open, setOpen] = useState(false);
+
+  const menuStyle = {
+    position:"absolute", top:"100%", right:0, marginTop:8, zIndex:100,
+    background:t.surface, border:`1px solid ${t.border}`, borderRadius:14,
+    padding:"14px 16px", minWidth:180,
+    boxShadow:"0 8px 24px rgba(0,0,0,0.08)",
+    animation:"fadeDown .18s ease",
+  };
+  const rowStyle = { marginBottom:12 };
+  const lblStyle = { fontSize:10, textTransform:"uppercase", letterSpacing:".08em", color:t.text3, fontFamily:t.tabFont, marginBottom:7, display:"block" };
+  const optRow   = { display:"flex", gap:6 };
+  const optBtn   = (active, onClick, children) => (
+    <button onClick={onClick} style={{
+      padding:"6px 12px", borderRadius:50, border:`1px solid ${active?t.accent:t.border}`,
+      background:active?t.spend1:t.surface, color:active?t.accent:t.text2,
+      fontFamily:t.tabFont, fontSize:12, cursor:"pointer", fontWeight:active?500:400,
+    }}>{children}</button>
+  );
+
+  return (
+    <div style={{position:"relative"}}>
+      <style>{`@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}`}</style>
+      <button onClick={()=>setOpen(o=>!o)} style={{
+        width:32, height:32, borderRadius:50,
+        border:`1px solid ${open?t.accent:t.border}`,
+        background:open?t.spend1:t.surface,
+        cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center",
+        color:t.text2,
+      }}>⚙</button>
+
+      {open && (
+        <>
+          <div onClick={()=>setOpen(false)} style={{position:"fixed",inset:0,zIndex:99}}/>
+          <div style={menuStyle}>
+            <div style={rowStyle}>
+              <span style={lblStyle}>{i.menuTheme}</span>
+              <div style={optRow}>
+                {optBtn(themeKey==="feminine", ()=>setThemeKey("feminine"), i.themeRose)}
+                {optBtn(themeKey==="neutral",  ()=>setThemeKey("neutral"),  i.themeMono)}
+              </div>
+            </div>
+            <div>
+              <span style={lblStyle}>{i.menuLang}</span>
+              <div style={optRow}>
+                {optBtn(lang==="pt", ()=>setLang("pt"), "🇧🇷 PT")}
+                {optBtn(lang==="en", ()=>setLang("en"), "🇺🇸 EN")}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -503,43 +624,38 @@ function TxTab({ entries, setEntries, t }) {
 // ── APP ───────────────────────────────────────────────────────
 function App() {
   const [themeKey, setThemeKey] = useState(()=>localStorage.getItem("money_theme")||"feminine");
+  const [lang,     setLang]     = useState(()=>localStorage.getItem("money_lang")||"pt");
   const [tab,      setTab]      = useState("add");
   const [entries,  setEntries]  = useState(()=>{ try{return JSON.parse(localStorage.getItem(KEY))||[];}catch{return[];} });
 
   const t = THEMES[themeKey];
+  const i = I18N[lang];
 
   useEffect(()=>{ localStorage.setItem("money_theme",themeKey); },[themeKey]);
+  useEffect(()=>{ localStorage.setItem("money_lang",lang); },[lang]);
 
   const totalSp = entries.filter(e=>e.type==="expense").reduce((s,e)=>s+e.amount,0);
   const totalIn = entries.filter(e=>e.type==="income").reduce((s,e)=>s+e.amount,0);
   const balance = totalIn - totalSp;
 
   const now=new Date();
-  const DAYS=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
-  const MONTHS=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
   return (
     <div style={{width:"100%",maxWidth:430,margin:"0 auto",height:"100svh",display:"flex",flexDirection:"column",background:t.bg,overflow:"hidden",position:"relative"}}>
 
       {/* HEADER */}
       <div style={{padding:"14px 22px 10px",borderBottom:`1px solid ${t.border}`,flexShrink:0}}>
-        <div style={{display:"flex",alignItems:"baseline",justifyContent:"space-between",marginBottom:3}}>
-          <div style={{fontFamily:t.titleFont,fontSize:22,fontWeight:500,color:t.text}}>Money ✨</div>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:4}}>
+          <div style={{fontFamily:t.titleFont,fontSize:22,fontWeight:500,color:t.text}}>{i.title}</div>
           <div style={{display:"flex",alignItems:"center",gap:8}}>
-            {/* theme switcher */}
-            <div style={{display:"flex",gap:4}}>
-              {Object.entries(THEMES).map(([k,th])=>(
-                <button key={k} onClick={()=>setThemeKey(k)} title={th.name} style={{
-                  width:26,height:26,borderRadius:50,border:`2px solid ${themeKey===k?t.accent:t.border}`,
-                  background:th.bg,cursor:"pointer",fontSize:12,display:"flex",alignItems:"center",justifyContent:"center",
-                }}>{th.icon}</button>
-              ))}
+            <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont}}>
+              {i.daysFull[now.getDay()]}, {now.getDate()} {i.months[now.getMonth()]}
             </div>
-            <div style={{fontSize:11,color:t.text3,fontFamily:t.tabFont}}>{DAYS[now.getDay()]}, {now.getDate()} {MONTHS[now.getMonth()]}</div>
+            <SettingsMenu themeKey={themeKey} setThemeKey={setThemeKey} lang={lang} setLang={setLang} t={t} i={i}/>
           </div>
         </div>
         <div style={{display:"flex",gap:14}}>
-          {[["gastos",totalSp,t.accent],["entradas",totalIn,t.income],["saldo",balance,balance>=0?t.income:t.accent]].map(([lbl,v,c])=>(
+          {[[i.spent,totalSp,t.accent],[i.income,totalIn,t.income],[i.balance,balance,balance>=0?t.income:t.accent]].map(([lbl,v,c])=>(
             <div key={lbl} style={{fontSize:12,color:t.text2,fontFamily:t.tabFont}}>
               {lbl} <span style={{fontFamily:t.numFont,fontSize:14,fontWeight:500,color:c}}>{brl(v)}</span>
             </div>
@@ -549,7 +665,7 @@ function App() {
 
       {/* TABS */}
       <div style={{display:"flex",borderBottom:`1px solid ${t.border}`,flexShrink:0,padding:"0 22px"}}>
-        {[["add","+ Adicionar"],["dashboard","Resumo"],["transactions","Lançamentos"]].map(([id,lbl])=>(
+        {[[i.tabAdd,"add"],[i.tabDash,"dashboard"],[i.tabTx,"transactions"]].map(([lbl,id])=>(
           <button key={id} onClick={()=>setTab(id)} style={{
             flex:1,padding:"9px 4px 10px",background:"none",border:"none",
             borderBottom:`2px solid ${tab===id?t.accent:"transparent"}`,marginBottom:-1,
@@ -560,9 +676,9 @@ function App() {
       </div>
 
       {/* PANELS */}
-      {tab==="add"          && <AddTab entries={entries} setEntries={setEntries} t={t}/>}
-      {tab==="dashboard"    && <DashTab entries={entries} t={t} themeKey={themeKey}/>}
-      {tab==="transactions" && <TxTab  entries={entries} setEntries={setEntries} t={t}/>}
+      {tab==="add"          && <AddTab entries={entries} setEntries={setEntries} t={t} i={i}/>}
+      {tab==="dashboard"    && <DashTab entries={entries} t={t} i={i} themeKey={themeKey}/>}
+      {tab==="transactions" && <TxTab  entries={entries} setEntries={setEntries} t={t} i={i}/>}
     </div>
   );
 }
