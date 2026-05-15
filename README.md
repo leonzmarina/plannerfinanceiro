@@ -1,22 +1,24 @@
-# 💸 Money
+# Money ✦
 
-Controle financeiro pessoal minimalista, feito com React + JSX rodando direto no browser (sem instalação, sem servidor, sem dependências externas além de CDN).
+Controle financeiro pessoal, feito com React + JSX rodando direto no browser — sem instalação, sem servidor, sem dependências externas além de CDN.
 
-Acesse em: **[marinnaleon.github.io/plannerfinanceiro](https://leonzmarina.github.io/plannerfinanceiro/)**
+Acesse em: **[leonzmarina.github.io/plannerfinanceiro](https://leonzmarina.github.io/plannerfinanceiro)**
 
 ---
 
 ## ✨ Funcionalidades
 
 - **Registrar gastos e entradas** com descrição, valor, data e categoria
-- **Dashboard** com totais, saldo do período, gráfico gauge de orçamento e pizza por categoria
-- **Lançamentos** com filtro por tipo e intervalo de datas
-- **Filtro de data** customizável (de/até) em todas as abas
-- **2 temas visuais** alternáveis diretamente no app:
-  - 🌸 **Rosé** — paleta feminina em tons de rosa e verde-sage
-  - ◼ **Mono** — minimalista neutro com tipografia Space Mono
-- **Dados 100% locais** — tudo salvo no `localStorage` do seu dispositivo, nenhuma informação vai para servidores
-- **PWA-ready** — pode ser adicionado como atalho na tela inicial do celular
+- **Resumo** com totais, saldo, gauge de orçamento, pizza por categoria, top 5 gastos e evolução mensal
+- **Lançamentos** com filtro por tipo, intervalo de datas e gráfico mensal
+- **Perfil** com nome e foto, salvos localmente
+- **Exportar dados** em CSV, Excel e PDF (relatório minimalista preto e branco)
+- **2 temas** que respondem automaticamente ao modo escuro/claro do celular:
+  - ✿ **Bloom** — rosa vibrante, estilo dashboard moderno
+  - ◆ **Obsidian** — escuro estilo admin dashboard
+- **PT 🇧🇷 e EN 🇺🇸** — troca de idioma sem perder os dados das categorias
+- **Dados 100% locais** — tudo salvo no `localStorage`, nenhuma informação vai a servidores
+- **PWA-ready** — adicione como atalho na tela inicial do celular
 
 ---
 
@@ -24,11 +26,12 @@ Acesse em: **[marinnaleon.github.io/plannerfinanceiro](https://leonzmarina.githu
 
 | Tecnologia | Uso |
 |---|---|
-| **React 18** | Interface declarativa com hooks (`useState`, `useMemo`) |
+| **React 18** | Interface com hooks (`useState`, `useMemo`, `useEffect`) |
 | **JSX** | Compilado no browser via Babel Standalone |
-| **SVG** | Gráficos gauge e pizza desenhados à mão, sem bibliotecas |
-| **localStorage** | Persistência de dados e preferência de tema |
-| **Google Fonts** | Cormorant Garamond · DM Sans · Space Mono |
+| **SVG** | Gráficos gauge, pizza, barras e linha desenhados do zero |
+| **localStorage** | Dados, tema, idioma e perfil persistidos localmente |
+| **GoatCounter** | Analytics minimalista, sem cookies |
+| **Google Fonts** | Cormorant Garamond · DM Sans |
 
 Zero bundlers. Zero frameworks de CSS. Zero backend.
 
@@ -37,7 +40,7 @@ Zero bundlers. Zero frameworks de CSS. Zero backend.
 ## 📁 Estrutura
 
 ```
-money/
+plannerfinanceiro/
 └── index.html   # app inteiro em um único arquivo
 ```
 
@@ -59,20 +62,20 @@ Vai aparecer como ícone na home, igual a um app nativo.
 
 ## 🔒 Privacidade
 
-O código-fonte é público, mas **os seus dados são privados**. Tudo fica salvo apenas no `localStorage` do seu próprio dispositivo. Nenhuma informação é enviada para nenhum servidor.
+O código-fonte é público, mas **os seus dados são privados**. Tudo fica salvo apenas no `localStorage` do seu próprio dispositivo. Nenhuma informação é enviada para servidores — exceto contagem anônima de visitas via GoatCounter (sem cookies, sem dados pessoais).
 
 ---
 
 ## 🚀 Deploy no GitHub Pages
 
-1. Faça fork ou crie um repositório chamado `plannerfinanceiro`
+1. Faça fork ou crie um repositório
 2. Faça upload do `index.html` como arquivo principal
 3. Vá em **Settings → Pages → Branch: main → Save**
-4. Aguarde 1–2 minutos — seu app estará em `https://seu-usuario.github.io/plannerfinanceiro`
+4. Aguarde 1–2 minutos
 
 ---
 
-## 📂 Categorias disponíveis
+## 📂 Categorias
 
 **Gastos:** Alimentação · Mercado · Transporte · Saúde · Lazer · Moradia · Educação · Roupas · Beleza · Serviços · Outros
 
